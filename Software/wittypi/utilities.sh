@@ -359,8 +359,12 @@ rtc_to_system()
 {
   log '  Writing RTC time to system...'
   local rtc_ts=$(get_rtc_timestamp)
-  sudo timedatectl set-ntp 0 >/dev/null
+  # sudo timedatectl set-ntp 0 >/dev/null
   sudo date -s @$rtc_ts >/dev/null
+
+  log '  Tell system that clock is syncd...'
+  mkdir -p /run/systemd/timesync/
+  touch /run/systemd/timesync/synchronized
   TIME_UNKNOWN=0
   log '  Done :-)'
 }
